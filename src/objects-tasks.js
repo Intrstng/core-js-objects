@@ -196,8 +196,8 @@ Rectangle.prototype.getArea = function getArea() {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { height: 10, width: 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
+function getJSON(obj) {
+  return JSON.stringify(obj);
 }
 
 /**
@@ -211,8 +211,11 @@ function getJSON(/* obj */) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
+function fromJSON(proto, json) {
+  const parsedObjectFromJSON = JSON.parse(json);
+  const instance = Object.create(proto.constructor.prototype);
+  Object.assign(instance, parsedObjectFromJSON);
+  return instance;
 }
 
 /**
@@ -241,8 +244,14 @@ function fromJSON(/* proto, json */) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
+function sortCitiesArray(arr) {
+  return arr.sort((a, b) => {
+    const countryCompare = a.country.localeCompare(b.country);
+    if (countryCompare !== 0) {
+      return countryCompare;
+    }
+    return a.city.localeCompare(b.city);
+  });
 }
 
 /**
